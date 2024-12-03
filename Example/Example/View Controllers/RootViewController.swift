@@ -88,9 +88,13 @@ class RootViewController: UITableViewController {
         ]
         // Customize appearance
         manager.popMenuAppearance.popMenuFont = UIFont(name: "AvenirNext-DemiBold", size: 16)!
-        manager.popMenuAppearance.popMenuBackgroundStyle = .blurred(.dark)
+        manager.popMenuAppearance.popMenuBackgroundStyle = .none()
+        manager.popMenuAppearance.popMenuBackgroundStyle = .none()
+        manager.popMenuAppearance.popMenuColor = .configure(background:  PopMenuActionBackgroundColor.solid(fill: .white), action: .tint(.white))
+        manager.popMenuAppearance.popMenuColor.backgroundColor = PopMenuActionBackgroundColor.solid(fill: .white)
         manager.popMenuShouldDismissOnSelection = false
         manager.popMenuDelegate = self
+        manager.popMenuAppearance.popMenuPresentationStyle = .near(.bottom, offset: CGPoint(x: 0, y: 10))
         // Present menu
         manager.present(sourceView: barButtonItem)
     }

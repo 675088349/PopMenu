@@ -287,7 +287,7 @@ extension PopMenuViewController {
             }
         }
 
-        containerView.addSubview(blurOverlayView)
+//        containerView.addSubview(blurOverlayView)
         containerView.addSubview(contentView)
         
         setupContentConstraints()
@@ -315,12 +315,13 @@ extension PopMenuViewController {
             contentView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
         // Activate blur overlay constraints
-        NSLayoutConstraint.activate([
-            blurOverlayView.leftAnchor.constraint(equalTo: containerView.leftAnchor),
-            blurOverlayView.rightAnchor.constraint(equalTo: containerView.rightAnchor),
-            blurOverlayView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            blurOverlayView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
-        ])
+        // TODO:
+//        NSLayoutConstraint.activate([
+//            blurOverlayView.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+//            blurOverlayView.rightAnchor.constraint(equalTo: containerView.rightAnchor),
+//            blurOverlayView.topAnchor.constraint(equalTo: containerView.topAnchor),
+//            blurOverlayView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+//        ])
     }
     
     /// Determine the fitting frame for content.
@@ -351,9 +352,18 @@ extension PopMenuViewController {
         let minContentPos: CGFloat = UIScreen.main.bounds.size.width * 0.05
         let maxContentPos: CGFloat = UIScreen.main.bounds.size.width * 0.95
         
+        var sourceX = sourceFrame.origin.x
+        var sourceY = sourceFrame.origin.y
+        
+        sourceX = sourceFrame.origin.x + (self.appearance.popMenuPresentationStyle.offset?.y ?? 0.0)
+        // TODO: other only bottom
+        if self.appearance.popMenuPresentationStyle.direction == .bottom {
+            sourceY = sourceFrame.maxY + (self.appearance.popMenuPresentationStyle.offset?.y ?? 0.0)
+        }
+        
         // Get desired content origin point
         let offsetX = (size.width - sourceFrame.size.width ) / 2
-        var desiredOrigin = CGPoint(x: sourceFrame.origin.x - offsetX, y: sourceFrame.origin.y)
+        var desiredOrigin = CGPoint(x: sourceX - offsetX, y: sourceY)
         if (desiredOrigin.x + size.width) > maxContentPos {
             desiredOrigin.x = maxContentPos - size.width
         }
@@ -630,6 +640,7 @@ extension PopMenuViewController {
             dismiss(animated: true) {
                 // Selection made.
                 self.didDismiss?(true)
+                action.didDismiss?()
             }
         }
     }

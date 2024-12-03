@@ -26,6 +26,8 @@ import UIKit
     /// The handler of action.
     var didSelect: PopMenuActionHandler? { get }
     
+    var didDismiss: (() -> Void)? { get set }
+
     /// Left padding when texts-only.
     static var textLeftPadding: CGFloat { get }
     
@@ -52,7 +54,7 @@ import UIKit
 
     /// Called when the action gets selected.
     @objc optional func actionSelected(animated: Bool)
- 
+    
     /// Type alias for selection handler.
     typealias PopMenuActionHandler = (PopMenuAction) -> Void
     
@@ -60,6 +62,7 @@ import UIKit
 
 /// The default PopMenu action class.
 public class PopMenuDefaultAction: NSObject, PopMenuAction {
+    public var didDismiss: (() -> Void)?
     
     /// Title of action.
     public let title: String?
